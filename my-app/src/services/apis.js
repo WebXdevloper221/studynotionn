@@ -1,4 +1,9 @@
-const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:5000/api/v1"
+const LOCAL_BASE_URL = "http://localhost:5000/api/v1"
+const PRODUCTION_BASE_URL = "https://studynotion-backend-qz7o.onrender.com/api/v1"
+
+const BASE_URL =
+  process.env.REACT_APP_BASE_URL ||
+  (process.env.NODE_ENV === "production" ? PRODUCTION_BASE_URL : LOCAL_BASE_URL)
 
 // AUTH ENDPOINTS
 export const endpoints = {
