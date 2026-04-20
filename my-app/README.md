@@ -1,6 +1,24 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the frontend application for StudyNotion, built with React.
+
+## Environment Variables
+
+Before running the app or building for production, ensure you have a `.env` file in the root directory with the following variables:
+
+```text
+REACT_APP_BASE_URL=http://localhost:4000/api/v1
+```
+
+*Note: Always prefix your variables with `REACT_APP_` for them to be accessible in the client-side code.*
+
+## Deployment
+
+To deploy this application:
+
+1. Run `npm run build` to create a production-ready `build` folder.
+2. Host the contents of the `build` folder on a static hosting provider like **Vercel**, **Netlify**, or **AWS S3**.
+3. Ensure that the hosting provider handles client-side routing (redirecting all requests to `index.html`).
 
 ## Available Scripts
 

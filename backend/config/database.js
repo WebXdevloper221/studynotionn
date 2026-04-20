@@ -10,10 +10,7 @@ exports.connectDB = () => {
         throw new Error("MONGODB_URL is not defined");
     }
 
-    mongoose.connect(mongoUrl, {
-        useUnifiedTopology:true,
-        useNewUrlParser: true
-    })
+    mongoose.connect(mongoUrl)
     .then(()=>{
         console.log("DB connection successfull!")
     })
