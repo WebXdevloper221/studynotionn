@@ -4,10 +4,12 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { buyCourse } from '../services/operations/studentFeaturesAPI.js';
 import { fetchCourseDetails } from '../services/operations/courseDetailsAPI';
 import { setCourse } from '../slices/courseSlice';
+import { addToCart } from '../slices/cartSlice';
 import GetAvgRating from '../utils/avgRating';
 import Error from "./Error"
 import ConfirmationModal from "../components/common/ConfirmationModal"
 import RatingStars from "../components/common/RatingStars"
+import { ACCOUNT_TYPE } from '../utils/constants';
 import { formatDate } from '../services/formatDate';
 import { IoIosInformationCircleOutline } from 'react-icons/io';
 import { BsGlobe } from 'react-icons/bs';
@@ -78,6 +80,31 @@ const CourseDetails = () => {
             btn2Text:"Cancel",
             btn1Handler:() => navigate("/login"),
             btn2Handler:()=>setConfirmationModal(null),
+        })
+    }
+
+    const handleAddToCart = () => {
+        const course = courseData?.data?.courseDetails;
+
+        if (!course) return;
+
+        if (user && user?.accountType === ACCOUNT_TYPE.INSTRUCTOR) {
+            toast.error("Instructor cannot buy the course")
+            return
+        }
+
+        if (token) {
+            dispatch(addToCart(course));
+            return;
+        }
+
+        setConfirmationModal({
+            text1:"you are not logged in",
+            text2:"Please login to add to cart",
+            btn1Text:"login",
+            btn2Text:"cancel",
+            btn1Handler:()=>navigate("/login"),
+            btn2Handler: ()=> setConfirmationModal(null),
         })
     }
 
@@ -155,8 +182,25 @@ const CourseDetails = () => {
                             Rs. {price}
                         </p>
 
-                        <button className='yellowButton'>Buy Now</button>
-                        <button className='blackButton'>Add to Cart</button>
+                        <button
+                            className='yellowButton'
+                            onClick={
+                                user && studentsEnrolled.includes(user?._id)
+                                ? () => navigate("/dashboard/enrolled-courses")
+                                : handleBuyCourse
+                            }
+                        >
+                            {
+                                user && studentsEnrolled.includes(user?._id) ? "Go to Course " : "Buy Now"
+                            }
+                        </button>
+                        {
+                            (!studentsEnrolled.includes(user?._id)) && (
+                                <button className='blackButton' onClick={handleAddToCart}>
+                                    Add to Cart
+                                </button>
+                            )
+                        }
                    </div>
                     
                 </div>
