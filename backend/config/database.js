@@ -4,7 +4,13 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 exports.connectDB = () => {
-    mongoose.connect("mongodb+srv://pankajlovanshi252:WRJAzQzaEuf6g5hW@cluster0.wlc8a.mongodb.net/StudyNotion", {
+    const mongoUrl = process.env.MONGODB_URL;
+
+    if (!mongoUrl) {
+        throw new Error("MONGODB_URL is not defined");
+    }
+
+    mongoose.connect(mongoUrl, {
         useUnifiedTopology:true,
         useNewUrlParser: true
     })

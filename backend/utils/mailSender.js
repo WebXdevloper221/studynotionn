@@ -35,7 +35,7 @@ const mailSender = async (email, title, body) => {
       service: "gmail", // use gmail service
       auth: {
         user: process.env.MAIL_USER,
-       // pass: process.env.MAIL_PASS,
+        pass: process.env.MAIL_PASS,
       },
     });
 
